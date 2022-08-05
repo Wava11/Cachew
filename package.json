@@ -26,6 +26,8 @@
   },
   "dependencies": {
     "dayjs": "^1.11.4",
+    "mongoose": "^6.5.1",
+    "redis": "^4.2.0",
     "zod": "^3.17.10"
   }
 }

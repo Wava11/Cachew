@@ -1,4 +1,4 @@
-import { Cache, NotFound } from "../cache";
+import { Cache, NotFound } from "../../cache";
 
 export class InMemoryStorage<T> implements Cache<T> {
     private readonly map: Map<string, T>;

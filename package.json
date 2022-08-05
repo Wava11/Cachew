@@ -1,0 +1,30 @@
+{
+  "name": "cachew",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init": "tsc --init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wava11/Cachew.git"
+  },
+  "author": "Matan Shaked",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wava11/Cachew/issues"
+  },
+  "homepage": "https://github.com/Wava11/Cachew#readme",
+  "devDependencies": {
+    "@types/jest": "^28.1.6",
+    "jest": "^28.1.3",
+    "ts-jest": "^28.0.7",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.4",
+    "zod": "^3.17.10"
+  }
+}

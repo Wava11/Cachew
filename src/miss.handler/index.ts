@@ -1,3 +1,3 @@
-interface MissHandler {
-    handleMiss(key: string): Promise<void>;
+interface MissHandler<T> {
+    handleMiss(key: string): Promise<T>;
 }

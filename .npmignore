@@ -1,1 +1,7 @@
 build/**/*.test.*
+coverage
+src
+.vscode
+tsconfig.json
+jest.config.ts
+*.tgz

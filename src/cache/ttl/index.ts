@@ -1,19 +1,19 @@
 import time from 'dayjs';
 import { Cache, NotFound } from "..";
-import { TtlCacheConfig } from './config';
-import { ExpiredEntry } from './errors';
-import { TtlEntry } from './entry';
-import { MissHandler } from '../../miss.handler';
 import { Source } from '../../source';
+import { TtlCacheConfig } from './config';
+import { TtlEntry } from './entry';
+import { ExpiredEntry } from './errors';
 
-export class TtlCache<T> implements Cache<T> {
+// TODO: add source error handling and monitoring
+export class TtlCache<CachedValue> implements Cache<CachedValue> {
     constructor(
         private readonly config: TtlCacheConfig,
-        private readonly storage: Cache<TtlEntry<T>>,
-        private readonly source: Source<T>
+        private readonly storage: Cache<TtlEntry<CachedValue>>,
+        private readonly source: Source<CachedValue>
     ) { }
 
-    async get(key: string): Promise<T | NotFound | ExpiredEntry> {
+    async get(key: string): Promise<CachedValue> {
         const fromStorage = await this.storage.get(key);
 
         if (fromStorage instanceof NotFound) {
@@ -28,7 +28,7 @@ export class TtlCache<T> implements Cache<T> {
     }
 
 
-    async set(key: string, value: T): Promise<void> {
+    async set(key: string, value: CachedValue): Promise<void> {
         await this.storage.set(key, {
             expiresAt: time().add(this.config.ttlMs, "milliseconds").valueOf(),
             value: value
@@ -41,7 +41,7 @@ export class TtlCache<T> implements Cache<T> {
         return fromSource;
     }
 
-    private isExpired(fromStorage: TtlEntry<T>) {
+    private isExpired(fromStorage: TtlEntry<CachedValue>) {
         return time(fromStorage.expiresAt).isBefore(time());
     }
 }

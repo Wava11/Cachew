@@ -8,7 +8,8 @@ export class MongoStorage<T> implements Cache<T> {
     constructor(private readonly model: Model<MongoStorageEntry<T>>) { };
 
     async get(key: string): Promise<T | NotFound> {
-        return (await this.model.findOne({ _id: key }))?.value ?? new NotFound(key);
+        const fromCollection = await this.model.findOne({ _id: key });
+        return fromCollection?.value ?? new NotFound(key);
     }
 
     async set(key: string, value: T): Promise<void> {

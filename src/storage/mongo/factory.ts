@@ -25,15 +25,21 @@ export class RunningMongoStorageFactory implements RunningService, StorageFactor
     createStorage<T>(storageName: string): MongoStorage<T> {
         if (storageName in this.models) {
             return new MongoStorage(this.models[storageName]);
-
         }
-        const storageModel = model<MongoStorageEntry<T>>(storageName, new Schema({}, { strict: false }));
+        const storageModel = model<MongoStorageEntry<T>>(storageName, new Schema({ _id: String }, { strict: false }));
         this.models[storageName] = storageModel;
         return new MongoStorage(storageModel);
+    }
+
+    /**
+     * 
+     * @deprecated
+     */
+    _getModel(storageName: string) {
+        return this.models[storageName];
     }
 
     async stop() {
         await mongoose.disconnect();
     }
-
 }

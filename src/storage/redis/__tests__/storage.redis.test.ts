@@ -1,15 +1,11 @@
-import mongoose, { model, Schema } from 'mongoose';
 import { RedisStorage } from '..';
-import { RedisStorageFactory, RunningRedisStorageFactory } from '../factory';
 import { NotFound } from '../../../cache';
+import { RedisStorageFactory, RunningRedisStorageFactory } from '../factory';
 
 
 interface Data {
     someField: string[];
 }
-const dataMongooseSchema = {
-    someField: [String]
-};
 
 const connectionString = "redis://localhost:6379";
 const storageName = "my_entity";

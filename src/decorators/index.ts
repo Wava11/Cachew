@@ -7,7 +7,15 @@ import { z } from "zod";
 
 // TODO: connection between args schema type and `P`
 export const cacheFunction = (cacheName: string, ttlMs: number, storage: StorageFactory) =>
-    <P extends unknown[], ArgsSchemaType extends z.ZodTuple<any>, R>(argumentsSchema: ArgsSchemaType, argsToKey: (...args: z.infer<ArgsSchemaType>) => string, functionToCache: CachableFunction<P, R>): CachableFunction<P, R> => {
+    <
+        P extends unknown[],
+        ArgsSchemaType extends z.ZodTuple<any>,
+        R
+    >(
+        argumentsSchema: ArgsSchemaType,
+        argsToKey: (...args: z.infer<ArgsSchemaType>) => string,
+        functionToCache: CachableFunction<P, R>
+    ): CachableFunction<P, R> => {
         const source = functionToSource(argumentsSchema, functionToCache);
         const cache = new TtlCache({ ttlMs }, storage.createStorage<TtlEntry<R>>(cacheName), source);
         return (...args: z.infer<ArgsSchemaType>): Promise<R> =>

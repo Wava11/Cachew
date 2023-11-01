@@ -15,14 +15,13 @@ export class TtlCache<CachedValue> implements Cache<CachedValue> {
 
     async get(key: string): Promise<CachedValue> {
         const fromStorage = await this.storage.get(key);
-
+        
         if (fromStorage instanceof NotFound) {
             const fromSource = await this.updateCache(key);
             return fromSource;
         }
         if (this.isExpired(fromStorage)) {
             this.updateCache(key);
-            return fromStorage.value;
         }
         return fromStorage.value;
     }
@@ -30,11 +29,16 @@ export class TtlCache<CachedValue> implements Cache<CachedValue> {
 
     async set(key: string, value: CachedValue): Promise<void> {
         await this.storage.set(key, {
-            expiresAt: time().add(this.config.ttlMs, "milliseconds").valueOf(),
-            value: value
+            expiresAt: this.calculateExpiry(),
+            value
         });
     }
 
+    private calculateExpiry(): number {
+        return time().add(this.config.ttlMs, "milliseconds").valueOf();
+    }
+
+    // TODO: CQS
     private async updateCache(key: string) {
         const fromSource = await this.source.get(key);
         this.set(key, fromSource);

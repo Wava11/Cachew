@@ -9,9 +9,8 @@ export interface RedisStorageFactoryConfig {
 }
 
 export class RedisStorageFactory implements Service {
-    constructor(private readonly config: RedisStorageFactoryConfig) {
+    constructor(private readonly config: RedisStorageFactoryConfig) { }
 
-    }
     async start() {
         const client: RedisClientType = createClient({ url: this.config.connectionString });
         await client.connect();

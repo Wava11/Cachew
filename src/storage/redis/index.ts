@@ -2,7 +2,10 @@ import { Cache, NotFound } from "../../cache";
 import { RedisClientType } from 'redis';
 
 export class RedisStorage<T> implements Cache<T> {
-    constructor(private readonly client: RedisClientType, private readonly storageName: string) { }
+    constructor(
+        private readonly client: RedisClientType,
+        private readonly storageName: string
+    ) { }
 
     async get(key: string): Promise<T | NotFound> {
         const valueString = await this.client.get(this.generateKey(key));
